@@ -99,9 +99,11 @@ async function run() {
             contents.push(`}`);
         }
 
-        // Write the script to disk.
         tl.assertAgent('2.115.0');
         let tempDirectory = tl.getVariable('agent.tempDirectory');
+        contents.push(`New-Item -Path $tempDirectory\scriptFinished -ItemType File`);
+
+        // Write the script to disk.
         tl.checkPath(tempDirectory, `${tempDirectory} (agent.tempDirectory)`);
         let filePath = path.join(tempDirectory, uuidV4() + '.ps1');
         fs.writeFileSync(
@@ -145,6 +147,13 @@ async function run() {
 
         // Run bash.
         let exitCode: number = await powershell.exec(options);
+
+        // Fail on on killed PowerShell process.
+        let flagPath = path.join(tempDirectory, "scriptFinished");
+        if (!(fs.existsSync(flagPath))) {
+            tl.setResult(tl.TaskResult.Failed, tl.loc('PowerShell script was not finished'));
+        }
+
         // Fail on exit code.
         if (exitCode !== 0) {
             tl.setResult(tl.TaskResult.Failed, tl.loc('JS_ExitCode', exitCode));

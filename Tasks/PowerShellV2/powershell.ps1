@@ -205,6 +205,13 @@ try {
         }
     }
 
+    # Fail on killed PowerShell process
+    if (!(Test-Path $tempDirectory\scriptFinished)) {
+        $failed = $true
+        Write-Verbose "PowerShell script was not finished"
+        Write-VstsTaskError -Message (Get-VstsLocString -Key 'PS_UnableToDetermineExitCode')
+    }
+
     # Fail on $LASTEXITCODE
     if (!(Test-Path -LiteralPath 'variable:\LASTEXITCODE')) {
         $failed = $true
@@ -216,13 +223,6 @@ try {
             $failed = $true
             Write-VstsTaskError -Message (Get-VstsLocString -Key 'PS_ExitCode' -ArgumentList $LASTEXITCODE)
         }
-    }
-
-    # Fail on killed PowerShell process
-    if (!(Test-Path $tempDirectory\scriptFinished)) {
-        $failed = $true
-        Write-Verbose "PowerShell script was not finished"
-        Write-VstsTaskError -Message (Get-VstsLocString -Key 'PS_UnableToDetermineExitCode')
     }
 
     # Fail if any errors.
