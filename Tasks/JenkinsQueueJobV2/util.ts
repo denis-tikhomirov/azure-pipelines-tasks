@@ -232,6 +232,7 @@ function submitJob(taskOptions: TaskOptions): Q.Promise<string> {
     );
 
     tl.debug('teamBuildPostData = ' + JSON.stringify(teamBuildPostData));
+    tl.debug('considerCode302AsSuccess input is ' + (this.queue.TaskOptions.considerCode302AsSuccess).toString());
     // first try team-build plugin endpoint, if that fails, then try the default endpoint
     request.post(teamBuildPostData, function teamBuildRequestCallback(err, httpResponse, body) {
         tl.debug('submitJob().teamBuildRequestCallback(teamBuildPostData)');
@@ -269,7 +270,7 @@ function submitJob(taskOptions: TaskOptions): Q.Promise<string> {
                     } else {
                         defer.reject(err);
                     }
-                } else if (httpResponse.statusCode === 302 && this.queue.TaskOptions.considerCode302AsSuccess) {
+                } else if (this.queue.TaskOptions.considerCode302AsSuccess) {
                     tl.debug('Code 302_FOUND is received from Jenkins.');
                     defer.resolve(null);
                 } else if (httpResponse.statusCode !== 201) {
