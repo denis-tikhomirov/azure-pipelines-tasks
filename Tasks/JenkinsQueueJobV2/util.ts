@@ -270,7 +270,7 @@ function submitJob(taskOptions: TaskOptions): Q.Promise<string> {
                     } else {
                         defer.reject(err);
                     }
-                } else if (httpResponse.statusCode === 302 && this.queue.TaskOptions.considerCode302AsSuccess) {
+                } else if (this.queue.TaskOptions.considerCode302AsSuccess) {
                     defer.reject(new HttpError(httpResponse, 'Code 302_FOUND is received from Jenkins.'));
                 } else if (httpResponse.statusCode !== 201) {
                     defer.reject(new HttpError(httpResponse, 'Job creation failed.'));
@@ -279,7 +279,7 @@ function submitJob(taskOptions: TaskOptions): Q.Promise<string> {
                     defer.resolve(queueUri);
                 }
             }).auth(taskOptions.username, taskOptions.password, true);
-        } else if (httpResponse.statusCode === 302 && this.queue.TaskOptions.considerCode302AsSuccess) {
+        } else if (this.queue.TaskOptions.considerCode302AsSuccess) {
             defer.reject(new HttpError(httpResponse, 'Code 302_FOUND is received from Jenkins.'));
         } else if (httpResponse.statusCode !== 201) {
             defer.reject(new HttpError(httpResponse, 'Job creation failed.'));
