@@ -1,0 +1,70 @@
+{
+    "id": "16C27F61-5E49-46DE-8520-8DC9CDEDA3A1",
+    "name": "UseXcodeVersion",
+    "friendlyName": "Use Xcode version",
+    "description": "Use the specified version of Xcode from the tool cache, optionally adding it to the PATH",
+    "helpUrl": "https://docs.microsoft.com/azure/devops/pipelines/tasks",
+    "helpMarkDown": "[Learn more about this task](https://docs.microsoft.com/azure/devops/pipelines/tasks) or [see the Xcode documentation](https://developer.apple.com/documentation)",
+    "category": "Tool",
+    "runsOn": [
+        "Agent",
+        "DeploymentGroup"
+    ],
+    "author": "Microsoft Corporation",
+    "version": {
+        "Major": 0,
+        "Minor": 203,
+        "Patch": 0
+    },
+    "demands": [ "xcode" ],
+    "minimumAgentVersion": "2.182.1",
+    "instanceNameFormat": "Use Xcode $(versionSpec)",
+    "inputs": [
+        {
+            "name": "versionSpec",
+            "type": "string",
+            "label": "Version spec",
+            "required": true,
+            "defaultValue": ">= 13",
+            "helpMarkDown": "Version range or exact version of a Xcode version to use."
+        },
+        {
+            "name": "addToPath",
+            "type": "boolean",
+            "label": "Add to PATH",
+            "required": false,
+            "defaultValue": "true",
+            "helpMarkDown": "Prepend the retrieved Xcode version to the PATH environment variable to make it available in subsequent tasks or scripts without using the output variable."
+        }
+    ],
+    "outputVariables": [
+        {
+            "name": "xcodeLocation",
+            "description": "The resolved folder of the Xcode distribution."
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "main.js",
+            "argumentFormat": ""
+        }
+    },
+    "messages": {
+        "DarwinOnly": "The Use Xcode version task can only run on a Mac computer.",
+        "ListAvailableVersions": "Available versions:",
+        "ToolNotFoundSelfHosted": "If this is a self-hosted agent, see how to configure side-by-side %s versions at %s.",
+        "VersionNotFound": "Version spec %s for architecture %s did not match any version in Agent.ToolsDirectory.",
+        "ExactVersionNotRecommended": "Specifying an exact version is not recommended on Microsoft-Hosted agents. Patch versions of Xcode can be replaced by new ones on Hosted agents without notice, which will cause builds to fail unexpectedly. It is recommended to specify only major or major and minor version (Example: `13` or `13.2`)"
+    },
+    "restrictions": {
+        "commands": {
+            "mode": "restricted"
+        },
+        "settableVariables": {
+            "allowed": [
+                "xcodeLocation",
+                "PATH"
+            ]
+        }
+    }
+}
