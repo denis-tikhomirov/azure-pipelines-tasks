@@ -12,7 +12,7 @@ import { useXcodeVersion } from './usexcodeversion';
             throw new Error(tl.loc('DarwinOnly'));
         }
         
-        const versionSpec = task.getInput('versionSpec', true) || '';
+        const versionSpec = task.getInput('versionSpec', true);
         const addToPath = task.getBoolInput('addToPath', true);
         await useXcodeVersion({
             versionSpec,

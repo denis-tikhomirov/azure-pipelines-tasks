@@ -52,6 +52,7 @@
   "messages": {
     "DarwinOnly": "ms-resource:loc.messages.DarwinOnly",
     "ListAvailableVersions": "ms-resource:loc.messages.ListAvailableVersions",
+    "ToolNotFoundMicrosoftHosted": "ms-resource:loc.messages.ToolNotFoundMicrosoftHosted",
     "ToolNotFoundSelfHosted": "ms-resource:loc.messages.ToolNotFoundSelfHosted",
     "VersionNotFound": "ms-resource:loc.messages.VersionNotFound",
     "ExactVersionNotRecommended": "ms-resource:loc.messages.ExactVersionNotRecommended"
